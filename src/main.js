@@ -4,8 +4,8 @@ import router from './router';
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
 import { messages } from './components/common/i18n';
-// import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
-import './assets/css/theme-green/index.css'; // 浅绿色主题
+import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
+// import './assets/css/theme-green/index.css'; // 浅绿色主题
 import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
@@ -56,7 +56,6 @@ new Vue({
 request.interceptors.request.use(
     (config) => {
         let token = localStorage.getItem('token');//这个是登录时存进本地环境的token
-        //console.log('mainjs\'s token : ' + token);
         config.headers = {
             contentType: 'application/json',
             Authorization: token

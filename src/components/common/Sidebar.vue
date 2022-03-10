@@ -58,38 +58,7 @@ export default {
     data () {
         return {
             collapse: false,
-            items: [
-                {
-                    icon: 'el-icon-lx-home',
-                    index: 'dashboard',
-                    title: '系统首页'
-                },
-                {
-                    icon: 'el-icon-lx-addressbook',
-                    index: 'reserve',
-                    title: '预定列表'
-                },
-                {
-                    icon: 'el-icon-school',
-                    index: 'room',
-                    title: '房间列表'
-                },
-                {
-                    icon: 'el-icon-lx-friend',
-                    index: 'table',
-                    title: '客户列表'
-                },
-                {
-                    icon: 'el-icon-lx-recharge',
-                    index: 'cost',
-                    title: '消费管理'
-                },
-                {
-                    icon: 'el-icon-lx-profile',
-                    index: 'permission',
-                    title: '前台管理'
-                }
-            ]
+            items: []
         };
     },
     computed: {
@@ -97,12 +66,81 @@ export default {
             return this.$route.path.replace('/', '');
         }
     },
+    mounted() {
+        this.getSideMenu()
+    },
     created () {
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
         bus.$on('collapse', msg => {
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
         });
+    },
+    methods: {
+        getSideMenu: function() {
+            if (localStorage.getItem('ms_username') !== 'admin'){
+                this.items = [
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'dashboard',
+                        title: '系统首页'
+                    },
+                    {
+                        icon: 'el-icon-lx-addressbook',
+                        index: 'reserveTest',
+                        title: '预定列表'
+                    },
+                    {
+                        icon: 'el-icon-school',
+                        index: 'room',
+                        title: '房间列表'
+                    },
+                    {
+                        icon: 'el-icon-lx-friend',
+                        index: 'table',
+                        title: '客户列表'
+                    },
+                    {
+                        icon: 'el-icon-lx-recharge',
+                        index: 'cost',
+                        title: '消费管理'
+                    }
+                ]
+            }else {
+                this.items = [
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'dashboard',
+                        title: '系统首页'
+                    },
+                    {
+                        icon: 'el-icon-lx-addressbook',
+                        index: 'reserveTest',
+                        title: '预定列表'
+                    },
+                    {
+                        icon: 'el-icon-school',
+                        index: 'room',
+                        title: '房间列表'
+                    },
+                    {
+                        icon: 'el-icon-lx-friend',
+                        index: 'table',
+                        title: '客户列表'
+                    },
+                    {
+                        icon: 'el-icon-lx-recharge',
+                        index: 'cost',
+                        title: '消费管理'
+                    },
+                    {
+                        icon: 'el-icon-lx-profile',
+                        index: 'permission',
+                        title: '前台管理'
+                    }
+                ]
+            }
+        }
     }
 };
 </script>

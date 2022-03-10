@@ -26,7 +26,7 @@
                     </span>
 
                     <el-dropdown-menu slot="dropdown">
-<!--                        <el-dropdown-item>个人信息</el-dropdown-item>-->
+                        <el-dropdown-item divided command="modify">修改信息</el-dropdown-item>
                         <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -55,9 +55,12 @@ export default {
 
         // 用户名下拉菜单选择事件
         handleCommand (command) {
-            if (command == 'loginout') {
+            if (command === 'loginout') {
                 localStorage.removeItem('ms_username');
                 this.$router.push('/login');
+            }
+            if (command === 'modify'){
+                this.$router.push('/modifyUser');
             }
         },
         // 侧边栏折叠

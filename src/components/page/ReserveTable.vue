@@ -2,121 +2,122 @@
 
     <div>
         <!--  客户列表文字  -->
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
+        <div class='crumbs'>
+            <el-breadcrumb separator='/'>
                 <el-breadcrumb-item>
-                    <i class="el-icon-lx-addressbook"></i> 预定列表
+                    <i class='el-icon-lx-addressbook'></i> 预定列表
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
 
         <!--  头部容器      -->
-        <div class="container">
-            <div class="handle-box">
+        <div class='container'>
+            <div class='handle-box'>
                 <el-button
                     round
                     plain
-                    type="primary"
-                    icon="el-icon-delete"
-                    class="handle-del mr10"
-                    @click="delAllSelection"
+                    type='primary'
+                    icon='el-icon-delete'
+                    class='handle-del mr10'
+                    @click='delAllSelection'
                 >批量删除
                 </el-button>
-                <el-button plain round type="primary" icon="el-icon-s-home" @click="handCheckIn">直接入住</el-button>
+                <el-button plain round type='primary' icon='el-icon-s-home' @click='handCheckIn'>直接入住</el-button>
 
                 &nbsp;&nbsp;
                 <el-input
                     round
-                    v-model="bookMsgs.guestIdCard"
-                    placeholder="请输入身份证号搜索,直接回车即可"
-                    class="handle-input mr10"
+                    v-model='bookMsgs.guestIdCard'
+                    placeholder='请输入身份证号搜索,直接回车即可'
+                    class='handle-input mr10'
                     clearable
-                    prefix-icon="el-icon-search"
-                    @clear="handleSearch"
-                    @keydown.enter.native="handleSearch"
+                    prefix-icon='el-icon-search'
+                    @clear='handleSearch'
+                    @keydown.enter.native='handleSearch'
                 >
                 </el-input>
-                <el-button plain round style="float: right" type="primary" icon="el-icon-plus" @click="handBook">添加预定</el-button>
+                <el-button plain round style='float: right' type='primary' icon='el-icon-plus' @click='handBook'>添加预定
+                </el-button>
             </div>
 
             <!-- 主列表 -->
             <el-table
-                :data="tableData"
-                style="width: 100%">
+                :data='tableData'
+                style='width: 100%'>
 
-                <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="guestIdCard" label="身份证号" align="center" width="200"></el-table-column>
-                <el-table-column prop="resultRoom" label="房间号" align="center" width="200"></el-table-column>
-                <el-table-column prop="rank" label="预定房间级别" align="center" width="200"></el-table-column>
+                <el-table-column type='selection' width='55' align='center'></el-table-column>
+                <el-table-column prop='guestIdCard' label='身份证号' align='center' width='200'></el-table-column>
+                <el-table-column prop='resultRoom' label='房间号' align='center' width='200'></el-table-column>
+                <el-table-column prop='rank' label='预定房间级别' align='center' width='200'></el-table-column>
                 <el-table-column
-                    label="预计入住时间"
-                    width="180"
-                    align="center"
+                    label='预计入住时间'
+                    width='180'
+                    align='center'
                 >
-                    <template slot-scope="scope">
-                        <i class="el-icon-time"></i>
-                        <span style="margin-left: 10px">{{ scope.row.fromTime }}</span>
+                    <template slot-scope='scope'>
+                        <i class='el-icon-time'></i>
+                        <span style='margin-left: 10px'>{{ scope.row.fromTime }}</span>
                     </template>
                 </el-table-column>
 
                 <el-table-column
-                    label="预计退房时间"
-                    width="180"
-                    align="center"
+                    label='预计退房时间'
+                    width='180'
+                    align='center'
                 >
-                    <template slot-scope="scope">
-                        <i class="el-icon-time"></i>
-                        <span style="margin-left: 10px">{{ scope.row.toTime }}</span>
+                    <template slot-scope='scope'>
+                        <i class='el-icon-time'></i>
+                        <span style='margin-left: 10px'>{{ scope.row.toTime }}</span>
                     </template>
                 </el-table-column>
 
-                <el-table-column label="状态" align="center" width="200">
-                    <template slot-scope="scope">
+                <el-table-column label='状态' align='center' width='200'>
+                    <template slot-scope='scope'>
                         <!--已处理1 蓝色,未处理0 红色,已入住11 绿色-->
                         <el-tag
-                            v-if="scope.row.state===11"
+                            v-if='scope.row.state===11'
                             :type="scope.row.state=== 11?'success':(scope.row.state===0?'danger':'')"
                         >已入住
                         </el-tag>
                         <el-tag
-                            v-if="scope.row.state===1"
+                            v-if='scope.row.state===1'
                             :type="scope.row.state=== 11?'success':(scope.row.state===0?'danger':'')"
                         >已处理
                         </el-tag>
                         <el-tag
-                            v-if="scope.row.state===0"
+                            v-if='scope.row.state===0'
                             :type="scope.row.state=== 11?'success':(scope.row.state===0?'danger':'')"
                         >未处理
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" align="center">
-                    <template slot-scope="scope">
+                <el-table-column label='操作' align='center'>
+                    <template slot-scope='scope'>
                         <el-button
-                            size="mini"
-                            icon="el-icon-edit"
-                            @click="handleEdit(scope.$index, scope.row)">编辑
+                            size='mini'
+                            icon='el-icon-edit'
+                            @click='handleEdit(scope.$index, scope.row)'>编辑
                         </el-button>
                         <el-button
                             plain
-                            size="mini"
-                            type="danger"
-                            icon="el-icon-delete"
-                            @click="handleDelete(scope.$index, scope.row,scope.row.id)">删除
+                            size='mini'
+                            type='danger'
+                            icon='el-icon-delete'
+                            @click='handleDelete(scope.$index, scope.row,scope.row.id)'>删除
                         </el-button>
                         <el-button
-                            size="mini"
-                            type="primary"
-                            icon="el-icon-bell"
+                            size='mini'
+                            type='primary'
+                            icon='el-icon-bell'
                             plain
-                            @click="handleSolve(scope.$index, scope.row,scope.row.rank)">处理
+                            @click='handleSolve(scope.$index, scope.row,scope.row.rank)'>处理
                         </el-button>
                         <el-button
                             plain
-                            type="success"
-                            size="mini"
-                            icon="el-icon-key"
-                            @click="handleIn(scope.row.id)">入住
+                            type='success'
+                            size='mini'
+                            icon='el-icon-key'
+                            @click='handleIn(scope.row.id)'>入住
                         </el-button>
                     </template>
                 </el-table-column>
@@ -124,193 +125,193 @@
             </el-table>
 
             <!-- 添加弹出框 -->
-            <el-dialog title="添加" :visible.sync="addVisible" width="30%">
-                <el-form ref="form" :model="form" label-width="70px">
-                    <el-form-item label="用户名">
-                        <el-input v-model="form.name"></el-input>
+            <el-dialog title='添加' :visible.sync='addVisible' width='30%'>
+                <el-form ref='form' :model='form' label-width='70px'>
+                    <el-form-item label='用户名'>
+                        <el-input v-model='form.name'></el-input>
                     </el-form-item>
-                    <el-form-item label="身份证号">
-                        <el-input v-model="form.idCard"></el-input>
+                    <el-form-item label='身份证号'>
+                        <el-input v-model='form.idCard'></el-input>
                     </el-form-item>
-                    <el-form-item label="联系电话">
-                        <el-input v-model="form.contact"></el-input>
+                    <el-form-item label='联系电话'>
+                        <el-input v-model='form.contact'></el-input>
                     </el-form-item>
-                    <el-form-item label="房间级别">
-                        <el-select v-model="form.rank" placeholder="请选择">
+                    <el-form-item label='房间级别'>
+                        <el-select v-model='form.rank' placeholder='请选择'>
                             <el-option
-                                v-for="item in types"
-                                :key="item"
-                                :label="item"
-                                :value="item">
+                                v-for='item in types'
+                                :key='item'
+                                :label='item'
+                                :value='item'>
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="入住时间">
+                    <el-form-item label='入住时间'>
                         <el-date-picker
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            v-model=" form.fromTime"
-                            type="date"
-                            placeholder="选择日期时间">
+                            value-format='yyyy-MM-dd HH:mm:ss'
+                            v-model=' form.fromTime'
+                            type='date'
+                            placeholder='选择日期时间'>
                         </el-date-picker>
 
 
                     </el-form-item>
-                    <el-form-item label="退房时间">
+                    <el-form-item label='退房时间'>
                         <el-date-picker
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            v-model="form.toTime"
-                            type="date"
-                            placeholder="选择日期时间">
+                            value-format='yyyy-MM-dd HH:mm:ss'
+                            v-model='form.toTime'
+                            type='date'
+                            placeholder='选择日期时间'>
                         </el-date-picker>
                     </el-form-item>
                 </el-form>
-                <span slot="footer" class="dialog-footer">
-                <el-button @click="addVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveBook">确 定</el-button>
+                <span slot='footer' class='dialog-footer'>
+                <el-button @click='addVisible = false'>取 消</el-button>
+                <el-button type='primary' @click='saveBook'>确 定</el-button>
                 </span>
             </el-dialog>
 
 
             <!-- 编辑弹出框 -->
-            <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-                <el-form ref="form" :model="form" label-width="70px">
-                    <el-form-item label="身份证号">
-                        <el-input v-model="form.guestIdCard" :disabled="true"></el-input>
+            <el-dialog title='编辑' :visible.sync='editVisible' width='30%'>
+                <el-form ref='form' :model='form' label-width='70px'>
+                    <el-form-item label='身份证号'>
+                        <el-input v-model='form.guestIdCard' :disabled='true'></el-input>
                     </el-form-item>
-                    <el-form-item label="房间级别">
-                        <el-select v-model="form.rank" placeholder="请选择">
+                    <el-form-item label='房间级别'>
+                        <el-select v-model='form.rank' placeholder='请选择'>
                             <el-option
-                                v-for="item in types"
-                                :key="item"
-                                :label="item"
-                                :value="item">
+                                v-for='item in types'
+                                :key='item'
+                                :label='item'
+                                :value='item'>
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="入住时间">
+                    <el-form-item label='入住时间'>
                         <el-date-picker
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            v-model=" form.fromTime"
-                            type="date"
-                            placeholder="选择日期时间">
+                            value-format='yyyy-MM-dd HH:mm:ss'
+                            v-model=' form.fromTime'
+                            type='date'
+                            placeholder='选择日期时间'>
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="退房时间">
+                    <el-form-item label='退房时间'>
                         <el-date-picker
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            v-model="form.toTime"
-                            type="date"
-                            placeholder="选择日期时间">
+                            value-format='yyyy-MM-dd HH:mm:ss'
+                            v-model='form.toTime'
+                            type='date'
+                            placeholder='选择日期时间'>
                         </el-date-picker>
                     </el-form-item>
                 </el-form>
-                <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
+                <span slot='footer' class='dialog-footer'>
+                <el-button @click='editVisible = false'>取 消</el-button>
+                <el-button type='primary' @click='saveEdit'>确 定</el-button>
                 </span>
             </el-dialog>
 
             <!--    处理弹出框    -->
-            <el-dialog title="处理" :visible.sync="solveVisible" width="30%">
-                <el-form ref="form" :model="form" label-width="70px">
+            <el-dialog title='处理' :visible.sync='solveVisible' width='30%'>
+                <el-form ref='form' :model='form' label-width='70px'>
                     <el-table
-                        :data="roomTypeData"
-                        style="width: 100%">
-                        <el-table-column prop="roomId" label="房型编号" align="center"></el-table-column>
-                        <el-table-column prop="rank" label="房间级别" align="center"></el-table-column>
-                        <el-table-column prop="size" label="房间大小" align="center"></el-table-column>
-                        <el-table-column prop="maxNum" label="容纳人数" align="center"></el-table-column>
-                        <el-table-column prop="rent" label="房间单价" align="center"></el-table-column>
-                        <el-table-column prop="earnest" label="房间定金" align="center"></el-table-column>
+                        :data='roomTypeData'
+                        style='width: 100%'>
+                        <el-table-column prop='roomId' label='房型编号' align='center'></el-table-column>
+                        <el-table-column prop='rank' label='房间级别' align='center'></el-table-column>
+                        <el-table-column prop='size' label='房间大小' align='center'></el-table-column>
+                        <el-table-column prop='maxNum' label='容纳人数' align='center'></el-table-column>
+                        <el-table-column prop='rent' label='房间单价' align='center'></el-table-column>
+                        <el-table-column prop='earnest' label='房间定金' align='center'></el-table-column>
                     </el-table>
                     <br>
                     <br>
-                    <el-form-item label="房间级别">
-                        <el-input v-model="form.rank" :disabled="true"></el-input>
+                    <el-form-item label='房间级别'>
+                        <el-input v-model='form.rank' :disabled='true'></el-input>
                     </el-form-item>
-                    <el-form-item label="空房间号">
-                        <el-select v-model="form.resultRoom" placeholder="请选择">
+                    <el-form-item label='空房间号'>
+                        <el-select v-model='form.resultRoom' placeholder='请选择'>
                             <el-option
-                                v-for="item in optionsByClass"
-                                :key="item.roomId"
-                                :label="item.roomId"
-                                :value="item.roomId">
+                                v-for='item in optionsByClass'
+                                :key='item.roomId'
+                                :label='item.roomId'
+                                :value='item.roomId'>
                             </el-option>
                         </el-select>
                     </el-form-item>
                 </el-form>
-                <span slot="footer" class="dialog-footer">
-                <el-button @click="solveVisible = false">取 消</el-button>
-                <el-button type="primary" @click="solveRoomId">确 定</el-button>
+                <span slot='footer' class='dialog-footer'>
+                <el-button @click='solveVisible = false'>取 消</el-button>
+                <el-button type='primary' @click='solveRoomId'>确 定</el-button>
                 </span>
             </el-dialog>
 
             <!-- 入住弹出框 -->
-            <el-dialog title="办理入住" :visible.sync="checkVisible" width="32%">
-                <el-form ref="form" :model="form" label-width="70px">
+            <el-dialog title='办理入住' :visible.sync='checkVisible' width='32%'>
+                <el-form ref='form' :model='form' label-width='70px'>
                     <el-table
-                        :data="roomTypeData"
-                        style="width: 100%">
-                        <el-table-column prop="roomId" label="房型号" align="center"></el-table-column>
-                        <el-table-column prop="rank" label="房间级别" align="center"></el-table-column>
-                        <el-table-column prop="size" label="房间大小" align="center"></el-table-column>
-                        <el-table-column prop="maxNum" label="容纳人数" align="center"></el-table-column>
-                        <el-table-column prop="rent" label="房间单价" align="center"></el-table-column>
-                        <el-table-column prop="earnest" label="房间定金" align="center"></el-table-column>
+                        :data='roomTypeData'
+                        style='width: 100%'>
+                        <el-table-column prop='roomId' label='房型号' align='center'></el-table-column>
+                        <el-table-column prop='rank' label='房间级别' align='center'></el-table-column>
+                        <el-table-column prop='size' label='房间大小' align='center'></el-table-column>
+                        <el-table-column prop='maxNum' label='容纳人数' align='center'></el-table-column>
+                        <el-table-column prop='rent' label='房间单价' align='center'></el-table-column>
+                        <el-table-column prop='earnest' label='房间定金' align='center'></el-table-column>
                     </el-table>
                     <br>
 
-                    <el-form-item label="用户名">
-                        <el-input v-model="form.name"></el-input>
+                    <el-form-item label='用户名'>
+                        <el-input v-model='form.name'></el-input>
                     </el-form-item>
-                    <el-form-item label="身份证号">
-                        <el-input v-model="form.idCard"></el-input>
+                    <el-form-item label='身份证号'>
+                        <el-input v-model='form.idCard'></el-input>
                     </el-form-item>
-                    <el-form-item label="联系电话">
-                        <el-input v-model="form.contact"></el-input>
+                    <el-form-item label='联系电话'>
+                        <el-input v-model='form.contact'></el-input>
                     </el-form-item>
-                    <el-form-item label="空房间号">
-                        <el-select v-model="form.resultRoom" placeholder="请选择">
+                    <el-form-item label='空房间号'>
+                        <el-select v-model='form.resultRoom' placeholder='请选择'>
                             <el-option
-                                v-for="item in options"
-                                :key="item.roomId"
-                                :label="item.roomId"
-                                :value="item.roomId">
+                                v-for='item in options'
+                                :key='item.roomId'
+                                :label='item.roomId'
+                                :value='item.roomId'>
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="入住时间">
+                    <el-form-item label='入住时间'>
                         <el-date-picker
-                            value-format="yyyy-MM-dd"
-                            v-model=" form.fromTime"
-                            type="date"
-                            placeholder="选择日期时间">
+                            value-format='yyyy-MM-dd'
+                            v-model=' form.fromTime'
+                            type='date'
+                            placeholder='选择日期时间'>
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="退房时间">
+                    <el-form-item label='退房时间'>
                         <el-date-picker
-                            value-format="yyyy-MM-dd"
-                            v-model="form.toTime"
-                            type="date"
-                            placeholder="选择日期时间">
+                            value-format='yyyy-MM-dd'
+                            v-model='form.toTime'
+                            type='date'
+                            placeholder='选择日期时间'>
                         </el-date-picker>
                     </el-form-item>
                 </el-form>
-                <span slot="footer" class="dialog-footer">
-                <el-button @click="checkVisible = false">取 消</el-button>
-                <el-button type="primary" @click="CheckIn">确 定</el-button>
+                <span slot='footer' class='dialog-footer'>
+                <el-button @click='checkVisible = false'>取 消</el-button>
+                <el-button type='primary' @click='CheckIn'>确 定</el-button>
                 </span>
             </el-dialog>
 
             <!--  分页角标设置   -->
-            <div class="pagination">
+            <div class='pagination'>
                 <el-pagination
                     background
-                    layout="total, prev, pager, next"
-                    :current-page="bookMsgs.pageIndex"
-                    :page-size="bookMsgs.pageSize"
-                    :total="pageTotal"
-                    @current-change="handlePageChange"
+                    layout='total, prev, pager, next'
+                    :current-page='bookMsgs.pageIndex'
+                    :page-size='bookMsgs.pageSize'
+                    :total='pageTotal'
+                    @current-change='handlePageChange'
                 ></el-pagination>
             </div>
         </div>
@@ -322,7 +323,7 @@ import { fetchData2 } from '../../api/index';
 
 export default {
     name: 'ReserveTable',
-    data () {
+    data() {
         return {
             time: 'hello world',
             bookMsgs: {
@@ -354,7 +355,7 @@ export default {
             idx: -1
         };
     },
-    created () {
+    created() {
         this.getAllBookMsgs();
         this.getNUllRooms();
         this.getAllClass();
@@ -365,7 +366,7 @@ export default {
 
 
         //获取空房间
-        getNUllRooms () {
+        getNUllRooms() {
             this.$http.get('/getNullRooms').then(res => {
                 //  console.log(res);
                 // console.log(res);
@@ -375,14 +376,14 @@ export default {
         },
 
         //获取所有预定信息
-        getAllBookMsgs () {
+        getAllBookMsgs() {
             this.$http.get('/getAllBookMsgs').then((res) => {
                 // console.log(res);
                 this.tableData = res.data.data.bookMsgs;
             });
         },
 
-        gerAllRooms () {
+        gerAllRooms() {
             this.$http.get('/getAllRooms').then(res => {
                 //console.log(res);
                 this.roomTypeData = res.data.data.roomMsgs;
@@ -390,7 +391,7 @@ export default {
         },
 
         //获取所有级别信息
-        getAllClass () {
+        getAllClass() {
             this.$http.get('/getAllRooms').then(res => {
                 //利用set去重
                 const result = new Set();
@@ -403,19 +404,19 @@ export default {
         },
 
 
-        handBook () {
+        handBook() {
             this.addVisible = true;
             this.form = {};
         },
 
         //删除预定信息
-        handleDelete (index, row, bookid) {
+        handleDelete(index, row, bookid) {
             // 二次确认删除
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
             })
                 .then(() => {
-                    this.$http.delete('//deleteBookMsg?id=' + bookid).then((res) => {
+                    this.$http.delete('/deleteBookMsg?id=' + bookid).then((res) => {
                         if (res.data.code === 200) {
                             this.$message.success('删除成功');
                             this.tableData.splice(index, 1);
@@ -430,10 +431,8 @@ export default {
         },
 
 
-
-
         //添加预定信息
-        saveBook () {
+        saveBook() {
             let fromTime = new Date(this.form.fromTime.replace(new RegExp('-', 'gm'), '/')).getTime();
             let toTime = new Date(this.form.toTime.replace(new RegExp('-', 'gm'), '/')).getTime();
             fromTime = fromTime + 43200000;
@@ -464,21 +463,21 @@ export default {
         },
 
         // 编辑操作
-        handleEdit (index, row) {
+        handleEdit(index, row) {
             this.idx = index;
             this.form = row;
             this.editVisible = true;
         },
 
         //编辑预定信息
-        saveEdit () {
+        saveEdit() {
             let fromTime = new Date(this.form.fromTime.replace(new RegExp('-', 'gm'), '/')).getTime();
             let toTime = new Date(this.form.toTime.replace(new RegExp('-', 'gm'), '/')).getTime();
             fromTime = fromTime + 43200000;
             toTime = toTime + 43200000;
             const days = Math.floor((toTime - fromTime) / (24 * 3600 * 1000));
             if (days >= 1) {
-                this.$http.put('//updateBookMsg?fromTime=' + fromTime + '&id=' + this.form.id + '&rank=' + this.form.rank + '&toTime=' + toTime).then(res => {
+                this.$http.put('/updateBookMsg?fromTime=' + fromTime + '&id=' + this.form.id + '&rank=' + this.form.rank + '&toTime=' + toTime).then(res => {
                     //console.log(res);
                     if (res.data.code === 200) {
                         //1.提示成功
@@ -499,12 +498,12 @@ export default {
         },
 
         //直接入住弹出框
-        handCheckIn () {
+        handCheckIn() {
             this.checkVisible = true;
             this.form = {};
         },
 
-        CheckIn () {
+        CheckIn() {
             let fromTime = new Date(this.form.fromTime.replace(new RegExp('-', 'gm'), '/')).getTime();
             let toTime = new Date(this.form.toTime.replace(new RegExp('-', 'gm'), '/')).getTime();
             fromTime = fromTime + 43200000;
@@ -532,14 +531,14 @@ export default {
         },
 
         //处理弹出框
-        handleSolve (index, row) {
+        handleSolve(index, row) {
             this.idx = index;
             this.form = row;
             const fromTime = new Date(this.form.fromTime.replace(new RegExp('-', 'gm'), '/')).getTime();
             const toTime = new Date(this.form.toTime.replace(new RegExp('-', 'gm'), '/')).getTime();
             console.log('formTime: ' + fromTime);
             console.log('toTime: ' + toTime);
-            this.$http.get('//getNullRoomsByRank?fromTime=' + fromTime + '&rank=' + this.form.rank + '&toTime=' + toTime).then(res => {
+            this.$http.get('/getNullRoomsByRank?fromTime=' + fromTime + '&rank=' + this.form.rank + '&toTime=' + toTime).then(res => {
                 //console.log(res.data);
                 this.optionsByClass = res.data.data.nullRooms;
             });
@@ -547,9 +546,9 @@ export default {
         },
 
         //处理分配房间问题
-        solveRoomId () {
+        solveRoomId() {
             //resultRoom
-            this.$http.put('//assignment?bookMsgId=' + this.form.id + '&roomId=' + this.form.resultRoom).then(res => {
+            this.$http.put('/assignment?bookMsgId=' + this.form.id + '&roomId=' + this.form.resultRoom).then(res => {
                 console.log(res);
                 if (res.data.code === 200) {
                     //1.提示成功
@@ -568,7 +567,7 @@ export default {
         },
 
         //入住
-        handleIn (bookId) {
+        handleIn(bookId) {
             this.$http.post('/bookCheckIn?bookMsgId=' + bookId).then(res => {
                 //console.log(res);
                 if (res.data.code === 200) {
@@ -587,7 +586,7 @@ export default {
         },
 
         // 搜索功能
-        handleSearch () {
+        handleSearch() {
             //console.log(this.bookMsgs.guestIdCard);
             this.$http.get('/getBookMsgByIdCard?idCard=' + this.bookMsgs.guestIdCard).then(res => {
                 console.log(res.data);
@@ -601,10 +600,10 @@ export default {
         },
 
         // 多选操作
-        handleSelectionChange (val) {
+        handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        delAllSelection () {
+        delAllSelection() {
             const length = this.multipleSelection.length;
             let str = '';
             this.delList = this.delList.concat(this.multipleSelection);
@@ -616,7 +615,7 @@ export default {
         },
 
         // 分页导航
-        handlePageChange (val) {
+        handlePageChange(val) {
             this.$set(this.bookMsgs, 'pageIndex', val);
             this.getAllBookMsgs();
         }

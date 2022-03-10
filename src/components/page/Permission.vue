@@ -2,55 +2,55 @@
 
     <div>
         <!--  客户列表文字  -->
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
+        <div class='crumbs'>
+            <el-breadcrumb separator='/'>
                 <el-breadcrumb-item>
-                    <i class="el-icon-lx-profile"></i> 前台管理
+                    <i class='el-icon-lx-profile'></i> 前台管理
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
 
         <!--  头部容器      -->
-        <div class="container">
-            <div class="handle-box">
+        <div class='container'>
+            <div class='handle-box'>
                 <el-button
                     round
                     plain
-                    type="primary"
-                    icon="el-icon-delete"
-                    class="handle-del mr10"
-                    @click="delAllSelection"
+                    type='primary'
+                    icon='el-icon-delete'
+                    class='handle-del mr10'
+                    @click='delAllSelection'
                 >批量删除
                 </el-button>
-                <el-button plain round type="primary" icon="el-icon-plus" @click="handBook">添加前台</el-button>
+                <el-button plain round type='primary' icon='el-icon-plus' @click='handBook'>添加前台</el-button>
             </div>
 
             <!-- 主列表 -->
             <el-table
-                :data="tableData"
+                :data='tableData'
                 border
-                style="width: 100%">
+                style='width: 100%'>
 
-                <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="frontId" label="前台工号" align="center"></el-table-column>
-                <el-table-column prop="name" label="前台姓名" align="center"></el-table-column>
-                <el-table-column prop="password" label="前台密码" align="center"></el-table-column>
-                <el-table-column prop="phone" label="前台电话" align="center"></el-table-column>
+                <el-table-column type='selection' width='55' align='center'></el-table-column>
+                <el-table-column prop='frontId' label='前台工号' align='center'></el-table-column>
+                <el-table-column prop='name' label='前台姓名' align='center'></el-table-column>
+                <el-table-column prop='password' label='前台密码' align='center'></el-table-column>
+                <el-table-column prop='phone' label='前台电话' align='center'></el-table-column>
 
 
-                <el-table-column label="操作" align="center">
-                    <template slot-scope="scope">
+                <el-table-column label='操作' align='center'>
+                    <template slot-scope='scope'>
                         <el-button
-                            size="mini"
-                            icon="el-icon-edit"
-                            @click="handleEdit(scope.$index, scope.row)">编辑
+                            size='mini'
+                            icon='el-icon-edit'
+                            @click='handleEdit(scope.$index, scope.row)'>编辑
                         </el-button>
                         <el-button
                             plain
-                            size="mini"
-                            type="danger"
-                            icon="el-icon-delete"
-                            @click="handleDelete(scope.$index, scope.row,scope.row.frontId)">删除
+                            size='mini'
+                            type='danger'
+                            icon='el-icon-delete'
+                            @click='handleDelete(scope.$index, scope.row,scope.row.frontId)'>删除
                         </el-button>
                     </template>
                 </el-table-column>
@@ -59,58 +59,58 @@
 
 
             <!-- 编辑弹出框 -->
-            <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-                <el-form ref="form" :model="form" label-width="70px">
-                    <el-form-item label="前台工号">
-                        <el-input v-model="form.frontId" :disabled="true"></el-input>
+            <el-dialog title='编辑' :visible.sync='editVisible' width='30%'>
+                <el-form ref='form' :model='form' label-width='70px'>
+                    <el-form-item label='前台工号'>
+                        <el-input v-model='form.frontId' :disabled='true'></el-input>
                     </el-form-item>
-                    <el-form-item label="前台姓名">
-                        <el-input v-model="form.name"></el-input>
+                    <el-form-item label='前台姓名'>
+                        <el-input v-model='form.name'></el-input>
                     </el-form-item>
-                    <el-form-item label="前台密码">
-                        <el-input v-model="form.password"></el-input>
+                    <el-form-item label='前台密码'>
+                        <el-input v-model='form.password'></el-input>
                     </el-form-item>
-                    <el-form-item label="联系电话">
-                        <el-input v-model="form.phone"></el-input>
+                    <el-form-item label='联系电话'>
+                        <el-input v-model='form.phone'></el-input>
                     </el-form-item>
                 </el-form>
-                <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
+                <span slot='footer' class='dialog-footer'>
+                <el-button @click='editVisible = false'>取 消</el-button>
+                <el-button type='primary' @click='saveEdit'>确 定</el-button>
                 </span>
             </el-dialog>
 
             <!-- 添加弹出框 -->
-            <el-dialog title="添加" :visible.sync="addVisible" width="30%">
-                <el-form ref="form" :model="form" label-width="70px">
-                    <el-form-item label="前台工号">
-                        <el-input v-model="form.frontId" ></el-input>
+            <el-dialog title='添加' :visible.sync='addVisible' width='30%'>
+                <el-form ref='form' :model='form' label-width='70px'>
+                    <el-form-item label='前台工号'>
+                        <el-input v-model='form.frontId'></el-input>
                     </el-form-item>
-                    <el-form-item label="前台姓名">
-                        <el-input v-model="form.name"></el-input>
+                    <el-form-item label='前台姓名'>
+                        <el-input v-model='form.name'></el-input>
                     </el-form-item>
-                    <el-form-item label="前台密码">
-                        <el-input v-model="form.password"></el-input>
+                    <el-form-item label='前台密码'>
+                        <el-input v-model='form.password'></el-input>
                     </el-form-item>
-                    <el-form-item label="联系电话">
-                        <el-input v-model="form.phone"></el-input>
+                    <el-form-item label='联系电话'>
+                        <el-input v-model='form.phone'></el-input>
                     </el-form-item>
                 </el-form>
-                <span slot="footer" class="dialog-footer">
-                <el-button @click="addVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveFront">确 定</el-button>
+                <span slot='footer' class='dialog-footer'>
+                <el-button @click='addVisible = false'>取 消</el-button>
+                <el-button type='primary' @click='saveFront'>确 定</el-button>
                 </span>
             </el-dialog>
 
             <!--  分页角标设置   -->
-            <div class="pagination">
+            <div class='pagination'>
                 <el-pagination
                     background
-                    layout="total, prev, pager, next"
-                    :current-page="fronts.pageIndex"
-                    :page-size="fronts.pageSize"
-                    :total="pageTotal"
-                    @current-change="handlePageChange"
+                    layout='total, prev, pager, next'
+                    :current-page='fronts.pageIndex'
+                    :page-size='fronts.pageSize'
+                    :total='pageTotal'
+                    @current-change='handlePageChange'
                 ></el-pagination>
             </div>
         </div>
@@ -128,7 +128,7 @@ fronts
 
 export default {
     name: 'RoomType',
-    data () {
+    data() {
         return {
             fronts: {
                 frontId: '',
@@ -150,13 +150,13 @@ export default {
             id: -1
         };
     },
-    created () {
+    created() {
         this.getAllFront();
     },
     methods: {
 
         //获取所有前台
-        getAllFront () {
+        getAllFront() {
             this.$http.get('/getAllFront').then((res) => {
                 //console.log(res);
                 this.tableData = res.data.data.fronts;
@@ -164,14 +164,14 @@ export default {
         },
 
         //删除预定信息
-        handleDelete (index, row, typeId) {
+        handleDelete(index, row, typeId) {
             if (localStorage.getItem('ms_username') === 'admin') {
                 // 二次确认删除
                 this.$confirm('确定要删除吗？', '提示', {
                     type: 'warning'
                 })
                     .then(() => {
-                        this.$http.delete('//deleteFront?id=' + typeId).then((res) => {
+                        this.$http.delete('/deleteFront?id=' + typeId).then((res) => {
                             console.log(res);
                             if (res.data.code === 200) {
                                 this.$message.success('删除成功');
@@ -191,7 +191,7 @@ export default {
 
 
         //添加预定信息框
-        handBook () {
+        handBook() {
             if (localStorage.getItem('ms_username') === 'admin') {
                 this.addVisible = true;
                 this.form = {};
@@ -201,7 +201,7 @@ export default {
         },
 
         //添加前台
-        saveFront () {
+        saveFront() {
             //console.log(this.form);
             this.$http.post('/addFront?frontId=' + this.form.frontId + '&name=' + this.form.name + '&password=' + this.form.password + '&phone=' + this.form.phone).then(res => {
                 //console.log(res);
@@ -221,7 +221,7 @@ export default {
         },
 
         // 编辑操作
-        handleEdit (index, row) {
+        handleEdit(index, row) {
             if (localStorage.getItem('ms_username') === 'admin') {
                 this.idx = index;
                 this.form = row;
@@ -232,7 +232,7 @@ export default {
         },
 
         //编辑前台
-        saveEdit () {
+        saveEdit() {
             //console.log(this.form);
             this.$http.post('/addFront?frontId=' + this.form.frontId + '&name=' + this.form.name + '&password=' + this.form.password + '&phone=' + this.form.phone).then(res => {
                 //console.log(res);
@@ -253,10 +253,10 @@ export default {
 
 
         // 多选操作
-        handleSelectionChange (val) {
+        handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        delAllSelection () {
+        delAllSelection() {
             const length = this.multipleSelection.length;
             let str = '';
             this.delList = this.delList.concat(this.multipleSelection);
@@ -268,7 +268,7 @@ export default {
         },
 
         // 分页导航
-        handlePageChange (val) {
+        handlePageChange(val) {
             this.$set(this.fronts, 'pageIndex', val);
             this.getAllFront();
         }

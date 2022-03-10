@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 const service = axios.create({
-    // process.env.NODE_ENV === 'development' 来判断是否开发环境
-    // easy-mock服务挂了，暂时不使用了
     baseURL: 'http://localhost:8088/hotel-api',
     timeout: 5000
 });
@@ -12,8 +10,7 @@ service.interceptors.request.use(
         return config;
     },
     error => {
-        console.log(error);
-        return Promise.reject();
+        return Promise.reject(error);
     }
 );
 
@@ -22,11 +19,12 @@ service.interceptors.response.use(
         if (response.status === 200) {
             return response;
         } else {
+            this.$message.error(response.data.msg)
             Promise.reject();
         }
     },
     error => {
-        console.log(error);
+        this.$message.error("请求错误")
         return Promise.reject();
     }
 );
