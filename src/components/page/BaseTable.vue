@@ -303,7 +303,6 @@
         for (let i = 0; i < length; i++) {
           this.idCardList.push(this.multipleSelection[i].idCard)
         }
-        debugger
         this.$http.post('/delAllSelection', this.idCardList).then((res) => {
           if (res.data.code === 200) {
             this.$message.success('删除成功');
