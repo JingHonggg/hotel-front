@@ -18,13 +18,13 @@
         <el-button type='primary' round plain icon='el-icon-plus' @click='handGuest'>添加客户</el-button>
         &nbsp; &nbsp;
         <div class="input-with-select">
-          <el-input placeholder="请输入内容" class="elInput" v-model="input3">
-            <el-select v-model="selects" class="elSelect" slot="prepend" placeholder="请选择">
-              <el-option label="餐厅名" value="1"></el-option>
-              <el-option label="订单号" value="2"></el-option>
-              <el-option label="用户电话" value="3"></el-option>
+          <el-input @input="getAllGuest()" placeholder="请输入内容" class="elInput" v-model="search">
+            <el-select v-model="selects" ref="searchRef" class="elSelect" slot="prepend" placeholder="请选择">
+              <el-option label="身份证号" value="idCard"></el-option>
+              <el-option label="姓名" value="userName"></el-option>
+              <el-option label="用户电话" value="phone"></el-option>
             </el-select>
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button @click="getAllGuest()" slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </div>
 
@@ -99,10 +99,20 @@
         <el-form-item label='联系电话'>
           <el-input v-model='form.contact'></el-input>
         </el-form-item>
+        <el-form-item label='房间号'>
+          <el-input v-model='form.roomId'></el-input>
+        </el-form-item>
+        <el-form-item label='入住状态'>
+          <el-select v-model="form.state" placeholder="请选择">
+            <el-option label="已入住" value="1"></el-option>
+            <el-option label="已退房" value="-1"></el-option>
+            <el-option label="未处理" value="0"></el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <span slot='footer' class='dialog-footer'>
         <el-button @click='editVisible = false'>取 消</el-button>
-        <el-button type='primary' @click='saveEdit'>确 定</el-button>
+        <el-button type='primary' @click='updateGuest()'>确 定</el-button>
       </span>
     </el-dialog>
 
@@ -117,6 +127,16 @@
         </el-form-item>
         <el-form-item label='联系电话'>
           <el-input v-model='form.contact'></el-input>
+        </el-form-item>
+        <el-form-item label='房间号'>
+          <el-input v-model='form.roomId'></el-input>
+        </el-form-item>
+        <el-form-item label='入住状态'>
+          <el-select v-model="form.state" placeholder="请选择">
+            <el-option label="已入住" value="1"></el-option>
+            <el-option label="已退房" value="-1"></el-option>
+            <el-option label="未处理" value="0"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <span slot='footer' class='dialog-footer'>
@@ -148,6 +168,7 @@
           pageIndex: 1, //当前在第几页
           pageSize: 10 //每页展示多少条数据
         },
+
         selects: '',
         search: '',
         tableData: [],
@@ -163,7 +184,9 @@
         form: {
           idCard: '',
           name: '',
-          contact: ''
+          contact: '',
+          roomId: '',
+          state: '',
         }
       };
     },
@@ -207,9 +230,18 @@
 
       //获取全部用户操作
       getAllGuest() {
-        //console.log('token: ' + localStorage.getItem('token'));
-        this.$http.get('/getAllGuest').then((res) => {
-          this.tableData = res.data.data.guestMsgs;
+        var values = this.selects
+        var query = {};
+        query[values] = this.search
+        //console.log`('token: ' + localStorage.getItem('token'));
+        this.$http.get('/getAllGuest', {
+
+          params: query
+
+        }).
+        then((res) => {
+          this.tableData = res.data.data.data;
+          console.log(this.tableData)
           // console.log(res.data.data.guestMsgs);
           // console.log('getAllGuest方法执行完毕');
         });
@@ -224,9 +256,8 @@
       //添加用户
       saveGuest() {
         //console.log(this.form);
-        this.$http.post('/addGuest?contact=' + this.form.contact + '&idCard=' + this.form.idCard + '&name=' + this.form
-          .name).then(res => {
-          //console.log(res);
+        this.$http.post('/addGuest', this.form).then(res => {
+          console.log(res);
           if (res.data.code === 200) {
             //1.提示成功
             this.$message.success(`添加成功`);
@@ -313,6 +344,24 @@
           }
 
         })
+      },
+      updateGuest() {
+        //console.log(this.form);
+        this.$http.post('updateGuest', this.form).then(res => {
+          //console.log(res);
+          if (res.data.code === 200) {
+            //1.提示成功
+            this.$message.success(`修改成功`);
+            //2.关闭对话框
+            this.editVisible = false;
+            //3.更新视图
+            this.getAllGuest();
+            //4.清空输入文本框
+            this.form = {};
+          } else {
+            this.$message.warning('修改失败');
+          }
+        });
       },
 
       // 分页导航
