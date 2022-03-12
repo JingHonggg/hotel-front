@@ -4,57 +4,64 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export default new Router({
-    routes: [
-        {
+    routes: [{
             path: '/',
             redirect: '/dashboard'
         },
         {
             path: '/',
-            component: () => import(/* webpackChunkName: "home" */ '../components/common/Home.vue'),
+            component: () =>
+                import ( /* webpackChunkName: "home" */ '../components/common/Home.vue'),
             meta: { title: '自述文件' },
-            children: [
-                {
+            children: [{
                     path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
+                    component: () =>
+                        import ( /* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
                     meta: { title: '系统首页' }
                 },
                 {
                     path: '/reserveTest',
-                    component: () => import(/* webpackChunkName: "table" */ '../components/page/ReserveTable.vue'),
+                    component: () =>
+                        import ( /* webpackChunkName: "table" */ '../components/page/ReserveTable.vue'),
                     meta: { title: '预定列表' }
                 },
                 {
                     path: '/table',
-                    component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
+                    component: () =>
+                        import ( /* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
                     meta: { title: '客户列表' }
                 },
                 {
                     path: '/room',
-                    component: () => import(/* webpackChunkName: "table" */ '../components/page/Room.vue'),
+                    component: () =>
+                        import ( /* webpackChunkName: "table" */ '../components/page/Room.vue'),
                     meta: { title: '房间列表' }
                 },
                 {
                     path: '/cost',
-                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Cost.vue'),
+                    component: () =>
+                        import ( /* webpackChunkName: "tabs" */ '../components/page/Cost.vue'),
                     meta: { title: '消费管理' }
                 },
                 {
                     // 权限页面
                     path: '/permission',
-                    component: () => import(/* webpackChunkName: "permission" */ '../components/page/Permission.vue'),
+                    component: () =>
+                        import ( /* webpackChunkName: "permission" */ '../components/page/Permission.vue'),
                     meta: { title: '前台管理', permission: true }
                 },
                 {
                     path: '/modifyUser',
-                    component: () => import('../components/page/ModifyUser.vue'),
-                    meta: { title: '修改信息'}
+                    component: () =>
+                        import ('../components/page/ModifyUser.vue'),
+                    meta: { title: '修改信息' }
                 }
             ]
         },
         {
             path: '/login',
-            component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
+            component: () =>
+                import ( /* webpackChunkName: "login" */ '../components/page/Login.vue'),
             meta: { title: '登录' }
         },
         {
@@ -63,8 +70,3 @@ export default new Router({
         }
     ]
 });
-
-
-
-
-

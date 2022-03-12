@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 // v-dialogDrag: 弹窗拖拽属性
 Vue.directive('dialogDrag', {
-    bind (el, binding, vnode, oldVnode) {
+    bind(el, binding, vnode, oldVnode) {
         const dialogHeaderEl = el.querySelector('.el-dialog__header');
         const dragDom = el.querySelector('.el-dialog');
 
@@ -47,8 +47,7 @@ Vue.directive('dialogDrag', {
             } else {
                 styL = +styL.replace(/\px/g, '');
                 styT = +styT.replace(/\px/g, '');
-            }
-            ;
+            };
 
             document.onmousemove = function(e) {
                 // 通过事件委托，计算移动的距离 
