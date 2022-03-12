@@ -25,7 +25,7 @@ service.interceptors.response.use(
     },
     error => {
         this.$message.error("请求错误")
-        return Promise.reject();
+        return Promise.reject(error);
     }
 );
 

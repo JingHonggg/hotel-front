@@ -25,7 +25,8 @@
       </div>
 
       <!-- 主列表 -->
-      <el-table :data="tableData" style="width: 100%" border>
+      <el-table :data="tableData" style="width: 100%" border
+                @selection-change='handleSelectionChange'>
 
 
         <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -97,8 +98,6 @@
           name: '',
           money: ''
         },
-
-
         value: '',
         tableData: [],
         multipleSelection: [],
@@ -176,7 +175,7 @@
               type: 'warning'
             })
             .then(() => {
-              this.$http.delete('//deleteCostType?id=' + costId).then((res) => {
+              this.$http.delete('/deleteCostType?id=' + costId).then((res) => {
                 if (res.data.code === 200) {
                   this.$message.success('删除成功');
                   this.tableData.splice(index, 1);
@@ -254,17 +253,27 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-
-      delAllSelection() {
-        const length = this.multipleSelection.length;
-        let str = '';
-        this.delList = this.delList.concat(this.multipleSelection);
-        for (let i = 0; i < length; i++) {
-          str += this.multipleSelection[i].roomId + ' ';
-        }
-        this.$message.error(`删除了${str}`);
-        this.multipleSelection = [];
-      },
+        delAllSelection() {
+            if (localStorage.getItem('ms_username') === 'admin') {
+                // 二次确认删除
+                this.$confirm('确定要删除吗？', '提示', {
+                    type: 'warning'
+                }).then(() => {
+                    const length = this.multipleSelection.length;
+                    for (let i = 0; i < length; i++) {
+                        this.delList.push(this.multipleSelection[i].id);
+                    }
+                    this.$http.post('/batchDeleteCost', this.delList).then(res => {
+                        if (res.data.code === 200) {
+                            this.$message.success('删除成功');
+                            this.getAllCostType();
+                        } else {
+                            this.$message.warning('删除失败');
+                        }
+                    });
+                });
+            }
+        },
 
       // 分页导航
       handlePageChange(val) {

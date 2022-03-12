@@ -40,14 +40,14 @@ export default new Router({
                 {
                     path: '/cost',
                     component: () =>
-                        import ( /* webpackChunkName: "tabs" */ '../components/page/Cost.vue'),
+                        import ( /* webpackChunkName: "tabs" */ '../components/page/CostManage.vue'),
                     meta: { title: '消费管理' }
                 },
                 {
                     // 权限页面
                     path: '/permission',
                     component: () =>
-                        import ( /* webpackChunkName: "permission" */ '../components/page/Permission.vue'),
+                        import ( /* webpackChunkName: "permission" */ '../components/page/FrontManage.vue'),
                     meta: { title: '前台管理', permission: true }
                 },
                 {
