@@ -171,6 +171,7 @@ export default {
             tableData: [],
             multipleSelection: [],
             delList: [],
+            idCardList:[],
             pageTotal: 50,      //总共有多少条数据
             idx: -1,
             id: -1,
@@ -315,13 +316,20 @@ export default {
         },
         delAllSelection() {
             const length = this.multipleSelection.length;
-            let str = '';
             this.delList = this.delList.concat(this.multipleSelection);
             for (let i = 0; i < length; i++) {
-                str += this.multipleSelection[i].name + ' ';
+                this.idCardList.push(this.multipleSelection[i].idCard)
             }
-            this.$message.error(`删除了 ${str}`);
-            this.multipleSelection = [];
+            debugger
+            this.$http.post('/delAllSelection',this.idCardList).then( (res) =>{
+                 if (res.data.code === 200) {
+                            this.$message.success('删除成功');
+                            this.getAllGuest();
+                        } else {
+                            this.$message.warning('删除失败');
+                        }
+                   
+            })
         },
 
         // 分页导航
