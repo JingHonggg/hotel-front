@@ -424,7 +424,7 @@
               type: 'warning'
             })
             .then(() => {
-              this.$http.delete('//deleteRoom?id=' + roomId).then((res) => {
+              this.$http.delete('/deleteRoom?id=' + roomId).then((res) => {
                 if (res.data.code === 200) {
                   this.$message.success('删除成功');
                   this.tableData.splice(index, 1);
