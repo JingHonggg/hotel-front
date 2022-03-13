@@ -20,7 +20,7 @@
       </div>
 
       <!-- 主列表 -->
-      <el-table :data='tableData' border style='width: 100%'>
+      <el-table :data='tableData' border style='width: 100%' @selection-change="handleSelectionChange">
 
         <el-table-column type='selection' width='55' align='center'></el-table-column>
         <el-table-column prop='frontId' label='前台工号' align='center'></el-table-column>
@@ -118,7 +118,7 @@
           pageIndex: 1, //当前在第几页
           pageSize: 10 //每页展示多少条数据
         },
-
+        frontId: [],
         tableData: [],
         multipleSelection: [],
         delList: [],
@@ -236,15 +236,29 @@
       // 多选操作
       handleSelectionChange(val) {
         this.multipleSelection = val;
+        console.dir(this.multipleSelection)
       },
       delAllSelection() {
         const length = this.multipleSelection.length;
+        console.dir(this.multipleSelection)
         let str = '';
         this.delList = this.delList.concat(this.multipleSelection);
         for (let i = 0; i < length; i++) {
-          str += this.multipleSelection[i].name + ' ';
+          this.frontId.push(this.multipleSelection[i].frontId)
         }
-        this.$message.error(`删除了${str}`);
+        this.$http.post("/deleteFronts", this.frontId).then(res => {
+          if (res.data.code === 200) {
+            //1.提示成功
+            this.$message.success(`删除成功`);
+
+            //3.更新视图
+            this.getAllFront();
+            //4.清空输入文本框
+            this.frontId = [];
+          } else {
+            this.$message.warning('删除失败，请稍候再试');
+          }
+        })
         this.multipleSelection = [];
       },
 
