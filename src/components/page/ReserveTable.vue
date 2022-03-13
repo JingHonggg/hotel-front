@@ -286,7 +286,7 @@
       //获取所有预定信息
       getAllBookMsgs() {
         this.$http.get('/getAllBookMsgs').then((res) => {
-          // console.log(res);
+          console.log(res);
           this.tableData = res.data.data.bookMsgs;
         });
       },
