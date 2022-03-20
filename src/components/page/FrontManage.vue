@@ -85,29 +85,13 @@
           <el-button type='primary' @click='saveFront'>确 定</el-button>
         </span>
       </el-dialog>
-
-      <!--  分页角标设置   -->
-      <div class='pagination'>
-        <el-pagination background layout='total, prev, pager, next' :current-page='fronts.pageIndex'
-          :page-size='fronts.pageSize' :total='pageTotal' @current-change='handlePageChange'></el-pagination>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {
-    fetchData2
-  } from '../../api/index';
-
-
-  /*
-  /getAllFront
-  fronts
-  */
-
   export default {
-    name: 'RoomType',
+    name: 'front',
     data() {
       return {
         fronts: {
@@ -137,7 +121,7 @@
 
       //获取所有前台
       getAllFront() {
-        this.$http.get('/getAllFront').then((res) => {
+        this.$http.get('/front/getAllFront').then((res) => {
           //console.log(res);
           this.tableData = res.data.data.fronts;
         });
@@ -151,7 +135,7 @@
               type: 'warning'
             })
             .then(() => {
-              this.$http.delete('/deleteFront?id=' + typeId).then((res) => {
+              this.$http.delete('/front/deleteFront?id=' + typeId).then((res) => {
                 console.log(res);
                 if (res.data.code === 200) {
                   this.$message.success('删除成功');
@@ -182,7 +166,7 @@
       //添加前台
       saveFront() {
         //console.log(this.form);
-        this.$http.post('/addFront?frontId=' + this.form.frontId + '&name=' + this.form.name + '&password=' + this.form
+        this.$http.post('/front/addFront?frontId=' + this.form.frontId + '&name=' + this.form.name + '&password=' + this.form
           .password + '&phone=' + this.form.phone).then(res => {
           //console.log(res);
           if (res.data.code === 200) {
@@ -214,7 +198,7 @@
       //编辑前台
       saveEdit() {
         //console.log(this.form);
-        this.$http.post('/addFront?frontId=' + this.form.frontId + '&name=' + this.form.name + '&password=' + this.form
+        this.$http.post('/front/addFront?frontId=' + this.form.frontId + '&name=' + this.form.name + '&password=' + this.form
           .password + '&phone=' + this.form.phone).then(res => {
           //console.log(res);
           if (res.data.code === 200) {
@@ -246,7 +230,7 @@
         for (let i = 0; i < length; i++) {
           this.frontId.push(this.multipleSelection[i].frontId)
         }
-        this.$http.post("/deleteFronts", this.frontId).then(res => {
+        this.$http.post("/front/deleteFronts", this.frontId).then(res => {
           if (res.data.code === 200) {
             //1.提示成功
             this.$message.success(`删除成功`);
@@ -261,12 +245,6 @@
         })
         this.multipleSelection = [];
       },
-
-      // 分页导航
-      handlePageChange(val) {
-        this.$set(this.fronts, 'pageIndex', val);
-        this.getAllFront();
-      }
     }
   };
 </script>

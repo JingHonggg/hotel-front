@@ -53,7 +53,7 @@
         //   console.log(this.param.username);
         let state = this.param.username;
         if (state === 'admin') {
-          this.$http.post('/backgroundLogin?backId=' + this.param.username + '&password=' + this.param.password).then(
+          this.$http.post('/background/backgroundLogin?backId=' + this.param.username + '&password=' + this.param.password).then(
             res => {
               console.log(res);
               if (res.data.code === 200) {
@@ -71,7 +71,7 @@
             });
         } else {
 
-          this.$http.post('/frontLogin?frontId=' + this.param.username + '&password=' + this.param.password).then(
+          this.$http.post('/front/frontLogin?frontId=' + this.param.username + '&password=' + this.param.password).then(
           res => {
             //    console.log(res);
             if (res.data.code === 200) {

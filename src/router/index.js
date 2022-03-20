@@ -5,43 +5,20 @@ Vue.use(Router);
 
 export default new Router({
     routes: [{
-            path: '/',
-            redirect: '/dashboard'
-        },
+        path: '/',
+        redirect: '/room'
+    },
         {
             path: '/',
             component: () =>
                 import ( /* webpackChunkName: "home" */ '../components/common/Home.vue'),
             meta: { title: '自述文件' },
-            children: [{
-                    path: '/dashboard',
-                    component: () =>
-                        import ( /* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
-                    meta: { title: '系统首页' }
-                },
-                {
-                    path: '/reserveTest',
-                    component: () =>
-                        import ( /* webpackChunkName: "table" */ '../components/page/ReserveTable.vue'),
-                    meta: { title: '预定列表' }
-                },
-                {
-                    path: '/table',
-                    component: () =>
-                        import ( /* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
-                    meta: { title: '客户列表' }
-                },
+            children: [
                 {
                     path: '/room',
                     component: () =>
                         import ( /* webpackChunkName: "table" */ '../components/page/Room.vue'),
                     meta: { title: '房间列表' }
-                },
-                {
-                    path: '/cost',
-                    component: () =>
-                        import ( /* webpackChunkName: "tabs" */ '../components/page/CostManage.vue'),
-                    meta: { title: '消费管理' }
                 },
                 {
                     // 权限页面
@@ -55,6 +32,13 @@ export default new Router({
                     component: () =>
                         import ('../components/page/ModifyUser.vue'),
                     meta: { title: '修改信息' }
+                },
+                {
+                    path: '/checkIn',
+                    name: 'CheckIn',
+                    component: () =>
+                        import('../components/page/CheckIn.vue'),
+                    meta: { title: '入住信息' }
                 }
             ]
         },

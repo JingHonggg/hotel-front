@@ -137,12 +137,11 @@
     },
     methods: {
       searchFront: async function () {
-        await this.$http.get('/getFrontById?frontId=' + this.userId).then(res => {
+        await this.$http.get('/front/getFrontById?frontId=' + this.userId).then(res => {
           if (res.status === 200) {
             const data = res.data.data['front'];
             this.userOriginInfo = data;
             this.infoForm = data;
-            console.log(this.infoForm);
           } else {
             this.$message.error('服务器错误');
           }
@@ -154,10 +153,10 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$http.post('/addFront?frontId=' + this.userId + '&name=' + this.infoForm.name +
+          this.$http.post('/front/addFront?frontId=' + this.userId + '&name=' + this.infoForm.name +
             '&password=' + this.infoForm.password + '&phone=' + this.infoForm.phone).then(res => {
             if (res.status === 200) {
-              this.$message.info('修改成功');
+              this.$message.success('修改成功');
               this.userOriginInfo = Object.assign(this.userOriginInfo, this.infoForm);
             } else {
               this.$message.error('修改失败：' + res.data.msg);
@@ -180,21 +179,21 @@
           type: 'warning'
         }).then(() => {
           if (this.role === 'admin') {
-            this.$http.post('modifyBackground?newPassword=' + this.passwordForm.newPassword).then(res => {
+            this.$http.post('/background/modifyBackground?newPassword=' + this.passwordForm.newPassword).then(res => {
               if (res.status === 200) {
-                this.$message.info('修改成功')
+                this.$message.success('修改成功')
                 this.userOriginInfo.password = this.passwordForm.newPassword
               } else {
                 this.$message.error('修改失败：' + res.data.msg)
               }
             })
           } else {
-            this.$http.post('/modifyFront?frontId=' + this.userOriginInfo.frontId + '&name=' + this.userOriginInfo
+            this.$http.post('/front/modifyFront?frontId=' + this.userOriginInfo.frontId + '&name=' + this.userOriginInfo
               .name +
               '&password=' + this.passwordForm.newPassword + '&phone=' + this.userOriginInfo.phone).then(
             res => {
               if (res.status === 200) {
-                this.$message.info('修改成功')
+                this.$message.success('修改成功')
               } else {
                 this.$message.error('修改失败：' + res.data.msg)
               }
