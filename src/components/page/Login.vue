@@ -62,7 +62,7 @@
                 // 将用户token保存到vuex中
                 localStorage.setItem('token', res.data.data);
                 localStorage.setItem('ms_username', this.param.username);
-                this.$router.push('/');
+                this.$router.push('/room');
               } else {
                 this.$message.error('请输入正确的账号和密码');
                 console.log('error submit!!');
@@ -81,7 +81,7 @@
               // 将用户token保存到vuex中
               localStorage.setItem('token', res.data.data);
               localStorage.setItem('ms_username', this.param.username);
-              this.$router.push('/');
+              this.$router.push('/room');
             } else {
               this.$message.error('请输入正确的账号和密码');
               console.log('error submit!!');

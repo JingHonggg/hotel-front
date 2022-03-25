@@ -135,9 +135,20 @@
                 </el-col>
             </el-row>
             <el-row>
-                <span class='diy-col backgroundColor'><strong>入住人信息</strong></span>
+                <div style='height: 35px;'></div>
             </el-row>
-            <el-table :data='checkInUser' border style='background-color: #fce9e8;'>
+            <el-row>
+                <el-col :span='24'>
+                    <span class='diy-col backgroundColor'><strong>入住人信息</strong></span>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col class='diy-col' style='display: flex;justify-content: right' :span='24'>
+                    <el-button type='primary' style='margin-right: 44px;' size='mini' @click='addColumn'>新增</el-button>
+                </el-col>
+            </el-row>
+            <el-table :data='checkInUser'
+                      border>
                 <el-table-column label='姓名' align='center'>
                     <template slot-scope='scope'>
                         <el-input v-model='scope.row.name' placeholder='请输入客人姓名'></el-input>
@@ -153,16 +164,16 @@
                         <el-input v-model='scope.row.idNumber' placeholder='请输入客人身份证号码'></el-input>
                     </template>
                 </el-table-column>
-                <el-table-column label='操作' align='center'>
+                <el-table-column label='操作' align='center' width='150'>
                     <template slot-scope='scope'>
-                        <el-button type='primary' size='small' @click='addColumn'>新增</el-button>
                         &nbsp;
                         <el-button type='danger' size='small' @click='deleteColumn(scope.$index)'>删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
             <div style='display:flex;justify-content:center;align-items:center;margin-top: 16px;'>
-                <el-button type='primary' @click='confirmCheckIn' style='width: 100px;'>入住</el-button>
+                <el-button type='primary' @click='confirmCheckIn' style='width: 100px;'>{{
+                    checkIn.id === null || checkIn.id === undefined ? '入住' : '修改'}}</el-button>
             </div>
             <div style='height:180px'></div>
         </div>
@@ -176,6 +187,7 @@ export default {
         return {
             room: this.$route.params.room,
             imageUrl: null,
+            multipleSelection: [],
             checkIn: {
                 inDate: null,
                 outDate: null,
@@ -262,6 +274,10 @@ export default {
             }
             this.checkInUser.splice(index, 1);
         },
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+            console.log(this.multipleSelection);
+        },
         getImage(imageUrl) {
             if (imageUrl === null || imageUrl === '')
                 return;
@@ -299,7 +315,7 @@ export default {
 }
 
 /deep/ .el-table th {
-    background-color: #fce9e8;
+    background-color: #daa7a7;
 }
 
 /deep/ .el-table thead {
@@ -308,5 +324,9 @@ export default {
 
 /deep/ .el-table--mini, .el-table--small, .el-table__expand-icon {
     font-size: 14px;
+}
+
+/deep/ .el-table th{
+    background-color: #fce9e8 !important;
 }
 </style>

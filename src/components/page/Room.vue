@@ -23,7 +23,13 @@
 
             <!-- 主列表 -->
             <el-table :data='tableData' style='width: 100%' border>
-                <el-table-column prop='roomNumber' label='房间号' align='center' width='150'></el-table-column>
+                <el-table-column prop='roomNumber' label='房间号' align='center' width='150'>
+                    <template slot-scope='scope'>
+                        <el-link :type="scope.row.roomStatus!==3?'':'primary'"
+                                 :disabled='scope.row.roomStatus!==3'
+                                 @click='checkIn(scope.row)'>{{scope.row.roomNumber}}</el-link>
+                    </template>
+                </el-table-column>
                 <el-table-column prop='roomType' label='房间类型' align='center' width='150'></el-table-column>
                 <el-table-column prop='size' label='容纳人数' align='center' width='150'></el-table-column>
                 <el-table-column prop='price' label='今日价格' align='center' width='150'></el-table-column>
@@ -92,27 +98,27 @@
                             <i v-else class='el-icon-plus avatar-uploader-icon'></i>
                         </el-upload>
                     </el-form-item>
-                    <el-form-item label='房间号' prop='roomId'>
-                        <el-input v-model='editForm.roomNumber'></el-input>
+                    <el-form-item label='房间号' prop='roomNumber'>
+                        <el-input disabled v-model='editForm.roomNumber'></el-input>
                     </el-form-item>
-                    <el-form-item label='房间级别'>
+                    <el-form-item  label='房间级别' prop='roomType'>
                         <el-input v-model='editForm.roomType'></el-input>
                     </el-form-item>
-                    <el-form-item label='容纳人数' prop='maxNum'>
+                    <el-form-item label='容纳人数' prop='size'>
                         <el-input v-model='editForm.size' placeholder='请输入正整数'></el-input>
                     </el-form-item>
-                    <el-form-item label='今日价格' prop='rent'>
+                    <el-form-item label='今日价格' prop='price'>
                         <el-input v-model='editForm.price' placeholder='请输入正数'></el-input>
                     </el-form-item>
-                    <el-form-item label='房间位置'>
+                    <el-form-item label='房间位置' prop='location'>
                         <el-input v-model='editForm.location'></el-input>
                     </el-form-item>
-                    <el-form-item label='房间设施' prop='earnest'>
+                    <el-form-item label='房间设施'>
                         <el-input v-model='editForm.facility'></el-input>
                     </el-form-item>
                 </el-form>
                 <span slot='footer' class='dialog-footer'>
-          <el-button @click='editVisible = false'>取 消</el-button>
+          <el-button @click='closeEditModal'>取 消</el-button>
           <el-button type='primary' @click='saveRoomEdit'>确 定</el-button>
         </span>
             </el-dialog>
@@ -135,7 +141,7 @@
                     <el-form-item label='房间号' prop='roomNumber'>
                         <el-input v-model='addForm.roomNumber'></el-input>
                     </el-form-item>
-                    <el-form-item label='房间类型'>
+                    <el-form-item label='房间类型' prop='roomType'>
                         <el-input v-model='addForm.roomType'></el-input>
                     </el-form-item>
                     <el-form-item label='房间位置' prop='location'>
@@ -147,7 +153,7 @@
                     <el-form-item label='今日房价' prop='price'>
                         <el-input v-model='addForm.price'></el-input>
                     </el-form-item>
-                    <el-form-item label='房间设施' prop='earnest'>
+                    <el-form-item label='房间设施' >
                         <el-input v-model='addForm.facility'></el-input>
                     </el-form-item>
                     <el-form-item label='添加人' prop='createdBy'>
@@ -155,7 +161,7 @@
                     </el-form-item>
                 </el-form>
                 <span slot='footer' class='dialog-footer'>
-                     <el-button @click='addVisible = false'>取 消</el-button>
+                     <el-button @click='closeCreateModal'>取 消</el-button>
                      <el-button type='primary' @click='saveRoom'>确 定</el-button>
                 </span>
             </el-dialog>
@@ -210,6 +216,10 @@ export default {
                 roomType: {
                     required: true,
                     message: '房间类型必填'
+                },
+                location:{
+                    required: true,
+                    message: '房间位置必填'
                 },
                 size: [
                     {
@@ -429,6 +439,19 @@ export default {
             } else {
                 this.$message.error('抱歉您没有该权限');
             }
+        },
+
+        closeCreateModal(){
+            this.$refs.addForm.resetFields()
+            this.addForm = {}
+            this.addVisible = false
+        },
+
+        closeEditModal(){
+            this.$refs.editForm.resetFields()
+            this.editForm = {}
+            this.editVisible = false
+            this.getAllRooms()
         }
     }
 };
