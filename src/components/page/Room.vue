@@ -25,8 +25,7 @@
             <el-table :data='tableData' style='width: 100%' border>
                 <el-table-column prop='roomNumber' label='房间号' align='center' width='150'>
                     <template slot-scope='scope'>
-                        <el-link :type="scope.row.roomStatus!==3?'':'primary'"
-                                 :disabled='scope.row.roomStatus!==3'
+                        <el-link :type="scope.row.roomStatus!==3?'warning':'primary'"
                                  @click='checkIn(scope.row)'>{{scope.row.roomNumber}}</el-link>
                     </template>
                 </el-table-column>
