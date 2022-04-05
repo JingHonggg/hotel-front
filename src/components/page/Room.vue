@@ -40,6 +40,7 @@
                         <el-tag v-if='scope.row.roomStatus===1' type='success'>空闲中</el-tag>
                         <el-tag v-if='scope.row.roomStatus===2' type='warning'>打扫中</el-tag>
                         <el-tag v-if='scope.row.roomStatus===3' type='danger'>入住中</el-tag>
+                        <el-tag v-if='scope.row.roomStatus===4' type='primary'>已预定</el-tag>
                     </template>
                 </el-table-column>
 
@@ -62,6 +63,12 @@
                                     <el-button plain size='mini' type='danger' icon='el-icon-delete'
                                                v-if="name==='admin'"
                                                @click='handleDelete(scope.$index, scope.row,scope.row.roomNumber)'>删除
+                                    </el-button>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <el-button plain size='mini' type='success' icon='el-icon-chat-round'
+                                               :disabled='scope.row.roomStatus!==1'
+                                               @click='preCheck(scope.row)'>预定
                                     </el-button>
                                 </el-dropdown-item>
                                 <el-dropdown-item>
@@ -283,6 +290,17 @@ export default {
                     checkIn: null
                 }
             });
+        },
+
+        preCheck(row){
+          this.$router.push({
+              name: 'CheckIn',
+              params: {
+                  room: row,
+                  checkIn: null,
+                  isPreCheck: true
+              }
+          })
         },
 
         //退房
