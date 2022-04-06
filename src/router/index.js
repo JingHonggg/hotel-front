@@ -44,6 +44,12 @@ export default new Router({
                     path: '/sauna',
                     component: () => import('../components/page/sauna.vue'),
                     meta: { title: '桑拿洗浴中心' }
+                },
+                {
+                    path: '/facilities',
+                    name: 'facilities',
+                    component: () => import('../components/page/facilities.vue'),
+                    meta: { title: '酒店设施' }
                 }
             ]
         },

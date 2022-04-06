@@ -67,6 +67,11 @@ export default {
                         title: '房间列表'
                     },
                     {
+                        icon: 'el-icon-brush',
+                        index: 'facilities',
+                        title: '设施管理'
+                    },
+                    {
                         icon: 'el-icon-s-custom',
                         index: 'staff',
                         title: '酒店员工信息'
@@ -83,6 +88,11 @@ export default {
                         icon: 'el-icon-school',
                         index: 'room',
                         title: '房间列表'
+                    },
+                    {
+                        icon: 'el-icon-brush',
+                        index: 'facilities',
+                        title: '设施管理'
                     },
                     {
                         icon: 'el-icon-s-custom',
