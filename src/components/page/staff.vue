@@ -39,7 +39,7 @@
             <el-table :data='tableData' border style='width: 100%'>
                 <el-table-column label='员工照片' align='center'>
                     <template slot-scope='scope'>
-                        <img v-if='scope.row.imageUrl' :src='scope.row.imageUrl' class='avatarList'>
+                        <img v-if='scope.row.imageUrl' :src='scope.row.url' class='avatarList'>
                     </template>
                 </el-table-column>
                 <el-table-column prop='workNumber' label='工号' align='center'></el-table-column>
@@ -47,7 +47,7 @@
                 <el-table-column width='120' prop='post' label='职务' align='center'></el-table-column>
                 <el-table-column width='90' prop='status' label='状态' align='center'>
                     <template slot-scope='scope'>
-                        <p>{{statusMap[scope.row.status]}}</p>
+                        <p>{{ statusMap[scope.row.status] }}</p>
                     </template>
                 </el-table-column>
                 <el-table-column prop='phone' label='联系电话' align='center'></el-table-column>
@@ -96,7 +96,7 @@
                     <el-form-item label='职务' prop='post' required>
                         <el-input v-model='form.post'></el-input>
                     </el-form-item>
-                    <el-form-item label='状态' prop='status' required>
+                    <el-form-item label='状态' prop='status' required :rules='{required:true,trigger:"change"}'>
                         <el-select v-model='form.status'>
                             <el-option v-for='item in statusList' :label='item.label' :value='item.value'></el-option>
                         </el-select>
@@ -141,7 +141,7 @@
                     <el-form-item label='职务' prop='post' required>
                         <el-input v-model='addForm.post'></el-input>
                     </el-form-item>
-                    <el-form-item label='状态' prop='status' required>
+                    <el-form-item label='状态' prop='status' required :rules='{required:true,trigger:"change"}'>
                         <el-select v-model='addForm.status'>
                             <el-option v-for='item in statusList' :label='item.label' :value='item.value'></el-option>
                         </el-select>
@@ -173,6 +173,7 @@ export default {
     data() {
         return {
             url: 'http://localhost:8088/hotel-api/',
+            avatarList: [],
             editVisible: false,
             addVisible: false,
             imageUrl: '',
@@ -229,30 +230,42 @@ export default {
             }
         };
     },
-    mounted() {
-        this.search(1)
+    async mounted() {
+        await this.search(1);
     },
     methods: {
-        search(page) {
+        async search(page) {
             this.searchForm.current = page;
-            this.$http.post('/staff/search',this.searchForm).then(res => {
-                if (res.data.code === 200){
-                    this.tableData = res.data.data.records
-                    this.tableDataCount = res.data.data.total
-                }else {
-                    this.$message.error('查询失败')
+            this.$http.post('/staff/search', this.searchForm).then(res => {
+                if (res.data.code === 200) {
+                    let tableData = res.data.data.records;
+                    this.tableDataCount = res.data.data.total;
+                    this.tableData = tableData
+                    this.getUrl(tableData)
+                } else {
+                    this.$message.error('查询失败');
                 }
-            })
+            });
+        },
+        getUrl(data){
+            if (data===null||data===undefined)
+                return
+            if (data.length>0){
+                let i = 0
+                data.forEach(e=>{
+                    this.getAvatar(e.imageUrl,i++)
+                })
+            }
         },
         clickReset() {
             this.searchForm.name = null;
-            this.searchForm.status = null
-            this.searchForm.workNumber = null
+            this.searchForm.status = null;
+            this.searchForm.workNumber = null;
         },
         getImage(row) {
             if (row.imageUrl === null)
                 return;
-            const imageUrl = row.imageUrl
+            const imageUrl = row.imageUrl;
             this.$http.request({
                 url: '/staff/getImage',
                 responseType: 'blob',
@@ -261,11 +274,25 @@ export default {
             }).then(res => {
                 let blob = new Blob([res.data], { type: 'image/JPEG' });
                 let url = window.URL.createObjectURL(blob);
-                this.imageUrl = url
+                this.imageUrl = url;
             });
-        }, m
+        },
+        getAvatar(imageUrl, index) {
+            if (imageUrl === null)
+                return;
+            this.$http.request({
+                url: '/staff/getImage',
+                responseType: 'blob',
+                method: 'POST',
+                params: { imageUrl: imageUrl }
+            }).then(res => {
+                let blob = new Blob([res.data], { type: 'image/JPEG' });
+                let url = window.URL.createObjectURL(blob);
+                this.tableData[index].url = url;
+            });
+        },
         addStaff() {
-            this.imageUrl = ''
+            this.imageUrl = '';
             this.addVisible = true;
             this.addForm = {};
         },
@@ -274,8 +301,8 @@ export default {
                 if (res) {
                     const formData = new FormData();
                     Object.keys(this.addForm).forEach(key => {
-                        if (this.addForm[key]!==null){
-                            formData.append(key,this.addForm[key])
+                        if (this.addForm[key] !== null) {
+                            formData.append(key, this.addForm[key]);
                         }
                     });
                     this.$http.post('/staff/add', formData).then(res => {
@@ -301,15 +328,15 @@ export default {
                 if (res) {
                     const formData = new FormData();
                     Object.keys(this.form).forEach(key => {
-                        if (this.form[key]!==null){
-                            formData.append(key,this.form[key])
+                        if (this.form[key] !== null) {
+                            formData.append(key, this.form[key]);
                         }
                     });
-                    this.$http.post('/staff/edit', formData).then(res => {
+                    this.$http.post('/staff/edit', formData).then(async res => {
                         if (res.data.code === 200) {
                             this.$message.success(res.data.msg);
                             this.editVisible = false;
-                            this.search(1);
+                            await this.search(1);
                         } else {
                             this.$message.error(res.data.msg);
                         }
@@ -318,16 +345,16 @@ export default {
             });
         },
         handleDelete(id) {
-            this.$confirm('确认删除吗?','提示',{type: 'warning'}).then(() => {
-                this.$http.post('/staff/delete',{id:id}).then(res => {
-                    if (res.data.code === 200){
-                        this.$message.success(res.data.msg)
-                        this.search(1)
-                    }else {
-                        this.$message.error(res.data.msg)
+            this.$confirm('确认删除吗?', '提示', { type: 'warning' }).then(() => {
+                this.$http.post('/staff/delete', { id: id }).then(res => {
+                    if (res.data.code === 200) {
+                        this.$message.success(res.data.msg);
+                        this.search(1);
+                    } else {
+                        this.$message.error(res.data.msg);
                     }
-                })
-            })
+                });
+            });
         },
         handleAvatarSuccess(res, file) {
             this.imageUrl = URL.createObjectURL(file.raw);
@@ -410,7 +437,6 @@ export default {
 .avatarList {
     width: 80px;
     height: 80px;
-    display: block;
 }
 
 .el-dropdown-link {
