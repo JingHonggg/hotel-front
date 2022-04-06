@@ -114,22 +114,22 @@
 
 
 <style>
-  .tags {
+.tags {
     position: relative;
     height: 30px;
     overflow: hidden;
     background: #fff;
     padding-right: 120px;
     box-shadow: 0 5px 10px #ddd;
-  }
+}
 
-  .tags ul {
+.tags ul {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-  }
+}
 
-  .tags-li {
+.tags-li {
     float: left;
     margin: 3px 5px 2px 3px;
     border-radius: 3px;
@@ -143,20 +143,20 @@
     padding: 0 5px 0 12px;
     vertical-align: middle;
     color: #666;
-    -webkit-transition: all .3s ease-in;
-    -moz-transition: all .3s ease-in;
-    transition: all .3s ease-in;
-  }
+    -webkit-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
+}
 
-  .tags-li:not(.active):hover {
+.tags-li:not(.active):hover {
     background: #f8f8f8;
-  }
+}
 
-  .tags-li.active {
+.tags-li.active {
     color: #fff;
-  }
+}
 
-  .tags-li-title {
+.tags-li-title {
     float: left;
     max-width: 80px;
     overflow: hidden;
@@ -164,13 +164,13 @@
     text-overflow: ellipsis;
     margin-right: 5px;
     color: #666;
-  }
+}
 
-  .tags-li.active .tags-li-title {
+.tags-li.active .tags-li-title {
     color: #fff;
-  }
+}
 
-  .tags-close-box {
+.tags-close-box {
     position: absolute;
     right: 0;
     top: 0;
@@ -180,7 +180,7 @@
     width: 110px;
     height: 30px;
     background: #fff;
-    box-shadow: -3px 0 15px 3px rgba(0, 0, 0, .1);
+    box-shadow: -3px 0 15px 3px rgba(0, 0, 0, 0.1);
     z-index: 10;
-  }
+}
 </style>

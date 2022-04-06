@@ -1,7 +1,6 @@
 <template>
   <div class="sidebar">
-    <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
-      text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
+    <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157" text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
       <template v-for="item in items">
         <template v-if="item.subs">
           <el-submenu :index="item.index" :key="item.index">
@@ -65,7 +64,13 @@
               icon: 'el-icon-school',
               index: 'room',
               title: '房间列表'
+            },
+              {
+              icon: 'el-icon-brush',
+              index: 'facilities',
+              title: '设施管理'
             }
+            
           ]
         } else {
           this.items = [
@@ -78,6 +83,11 @@
               icon: 'el-icon-lx-profile',
               index: 'permission',
               title: '前台管理'
+            },
+            {
+              icon: 'el-icon-brush',
+              index: 'facilities',
+              title: '设施管理'
             }
           ]
         }
@@ -87,24 +97,24 @@
 </script>
 
 <style scoped>
-  .sidebar {
+.sidebar {
     display: block;
     position: absolute;
     left: 0;
     top: 70px;
     bottom: 0;
     overflow-y: scroll;
-  }
+}
 
-  .sidebar::-webkit-scrollbar {
+.sidebar::-webkit-scrollbar {
     width: 0;
-  }
+}
 
-  .sidebar-el-menu:not(.el-menu--collapse) {
+.sidebar-el-menu:not(.el-menu--collapse) {
     width: 250px;
-  }
+}
 
-  .sidebar>ul {
+.sidebar > ul {
     height: 100%;
-  }
+}
 </style>
