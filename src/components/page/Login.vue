@@ -98,24 +98,24 @@
 </script>
 
 <style scoped>
-  .login-wrap {
+.login-wrap {
     position: relative;
     width: 100%;
     height: 100%;
     background-image: url(../../assets/img/login-bg.jpg);
     background-size: 100%;
-  }
+}
 
-  .ms-title {
+.ms-title {
     width: 100%;
     line-height: 50px;
     text-align: center;
     font-size: 20px;
     color: #fff;
     border-bottom: 1px solid #ddd;
-  }
+}
 
-  .ms-login {
+.ms-login {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -124,25 +124,25 @@
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.3);
     overflow: hidden;
-  }
+}
 
-  .ms-content {
+.ms-content {
     padding: 30px 30px;
-  }
+}
 
-  .login-btn {
+.login-btn {
     text-align: center;
-  }
+}
 
-  .login-btn button {
+.login-btn button {
     width: 100%;
     height: 36px;
     margin-bottom: 10px;
-  }
+}
 
-  .login-tips {
+.login-tips {
     font-size: 12px;
     line-height: 30px;
     color: #fff;
-  }
+}
 </style>
