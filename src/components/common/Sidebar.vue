@@ -100,9 +100,24 @@ export default {
                         title: '酒店员工信息'
                     },
                     {
-                        icon: 'el-icon-s-shop',
+                        icon: 'el-icon-male',
                         index: 'sauna',
-                        title: '桑拿洗浴中心'
+                        title: '男桑拿房'
+                    },
+                    {
+                        icon: 'el-icon-female',
+                        index: 'girl',
+                        title: '女桑拿房'
+                    },
+                    {
+                        icon: 'el-icon-cold-drink',
+                        index: 'bar',
+                        title: '酒吧走廊'
+                    },
+                    {
+                        icon: 'el-icon-dish',
+                        index: 'canteen',
+                        title: '餐厅'
                     },
                     {
                         icon: 'el-icon-lx-profile',

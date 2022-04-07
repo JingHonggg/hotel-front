@@ -4,7 +4,7 @@
         <div class='crumbs'>
             <el-breadcrumb separator='/'>
                 <el-breadcrumb-item>
-                    <i class='el-icon-male'></i>男桑拿房
+                    <i class='el-icon-cold-drink'></i>酒吧走廊
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
@@ -13,7 +13,7 @@
                 <img src='../../assets/img/sangna.jpg' class='image'>
             </div>
             <div style='display:flex;align-content: center;margin-top: 10px;'>
-                <span style='font-weight: bold;font-size: 22px;margin-left: 100px;'>男桑拿房可入场人数 {{chartData.current}}/{{chartData.total}}</span>
+                <span style='font-weight: bold;font-size: 22px;margin-left: 100px;'>酒吧可入场人数 {{chartData.current}}/{{chartData.total}}</span>
 
                 <el-button style='margin-left: 450px;' type='danger' @click='handleAdd'>入场一位</el-button>
                 <el-button style='margin-left: 50px;' type='danger' @click='handleSub'>离场一位</el-button>
@@ -29,11 +29,11 @@
 import * as chart from 'echarts';
 
 export default {
-    name: 'sauna',
+    name: 'bar',
     data() {
         return {
             chartData: {},
-            dataName: 'sangna'
+            dataName: 'jiuba'
         };
     },
     methods: {
@@ -109,3 +109,4 @@ export default {
     height: 400px;
 }
 </style>
+
