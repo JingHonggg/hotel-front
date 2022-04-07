@@ -214,11 +214,16 @@ export default {
                 {
                     value: 2,
                     label: '出差'
+                },
+                {
+                    value: 3,
+                    label: '请假'
                 }
             ],
             statusMap: {
                 1: '在岗',
-                2: '出差'
+                2: '出差',
+                3: '请假'
             },
             rules: {
                 workNumber: [{ require: true, trigger: 'blur', message: '工号不能为空' }],

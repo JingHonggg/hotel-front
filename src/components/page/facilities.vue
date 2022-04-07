@@ -26,7 +26,8 @@
               <div style='height: 5px;'></div>
               <span>营业状态：</span>
             <el-tag type='success' v-if="result.sangna.status === 1">正在营业</el-tag>
-            <el-tag type='danger' v-else>未营业</el-tag>
+            <el-tag type='danger'  v-if="result.sangna.status === 2">未营业</el-tag>
+            <el-tag  v-if="result.sangna.status === 3">打扫中</el-tag>
               <div style='height: 5px;'></div>
               <p>营业时间：{{result.sangna.time}}</p>
               <div style='height: 5px;'></div>
@@ -57,7 +58,8 @@
                       <div style='height: 5px;'></div>
                       <span>营业状态：</span>
                       <el-tag type='success' v-if="result.sangna2.status === 1">正在营业</el-tag>
-                      <el-tag type='danger' v-else>未营业</el-tag>
+                      <el-tag type='danger'  v-if="result.sangna2.status === 2">未营业</el-tag>
+                      <el-tag  v-if="result.sangna2.status === 3">打扫中</el-tag>
                       <div style='height: 5px;'></div>
                       <p>营业时间：{{result.sangna2.time}}</p>
                       <div style='height: 5px;'></div>
@@ -86,8 +88,9 @@
             <br />
               <div style='height: 5px;'></div>
               <span>营业状态：</span>
-            <el-tag type='success' v-if="result.jiuba.status === 1">正在营业</el-tag>
-            <el-tag type='danger' v-else>未营业</el-tag>
+              <el-tag type='success' v-if="result.jiuba.status === 1">正在营业</el-tag>
+              <el-tag type='danger'  v-if="result.jiuba.status === 2">未营业</el-tag>
+              <el-tag  v-if="result.jiuba.status === 3">打扫中</el-tag>
               <div style='height: 5px;'></div>
               <p>营业时间：{{result.jiuba.time}}</p>
               <div style='height: 5px;'></div>
@@ -117,8 +120,9 @@
             <br />
               <div style='height: 5px;'></div>
               <span>营业状态：</span>
-            <el-tag type='success' v-if="result.canting.status === 1">正在营业</el-tag>
-            <el-tag type='danger' v-else>未营业</el-tag>
+              <el-tag type='success' v-if="result.canting.status === 1">正在营业</el-tag>
+              <el-tag type='danger'  v-if="result.canting.status === 2">未营业</el-tag>
+              <el-tag  v-if="result.canting.status === 3">打扫中</el-tag>
               <div style='height: 5px;'></div>
             <p>营业时间：{{result.canting.time}}</p>
               <div style='height: 5px;'></div>
@@ -154,6 +158,8 @@
           <el-select v-model="formData.status" placeholder="请选择">
             <el-option label="正在营业" :value="1"></el-option>
             <el-option label="未营业" :value="2">
+            </el-option>
+              <el-option label="打扫中" :value="3">
             </el-option>
           </el-select>
 

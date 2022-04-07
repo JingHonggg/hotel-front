@@ -72,14 +72,24 @@ export default {
                         title: '设施管理'
                     },
                     {
-                        icon: 'el-icon-s-custom',
-                        index: 'staff',
-                        title: '酒店员工信息'
+                        icon: 'el-icon-male',
+                        index: 'sauna',
+                        title: '男桑拿房'
                     },
                     {
-                        icon: 'el-icon-s-shop',
-                        index: 'sauna',
-                        title: '桑拿洗浴中心'
+                        icon: 'el-icon-female',
+                        index: 'girl',
+                        title: '女桑拿房'
+                    },
+                    {
+                        icon: 'el-icon-cold-drink',
+                        index: 'bar',
+                        title: '酒吧走廊'
+                    },
+                    {
+                        icon: 'el-icon-dish',
+                        index: 'canteen',
+                        title: '餐厅'
                     }
                 ];
             } else {
