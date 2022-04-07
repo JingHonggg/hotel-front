@@ -138,15 +138,16 @@
                 <div style='height: 35px;'></div>
             </el-row>
             <el-row>
+            <el-col class='diy-col' style='display: flex;justify-content: right' :span='24'>
+                <el-button type='primary' style='margin-right: 44px;' size='mini' @click='addColumn'>新增</el-button>
+            </el-col>
+        </el-row>
+            <el-row>
                 <el-col :span='24'>
                     <span class='diy-col backgroundColor'><strong>入住人信息</strong></span>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col class='diy-col' style='display: flex;justify-content: right' :span='24'>
-                    <el-button type='primary' style='margin-right: 44px;' size='mini' @click='addColumn'>新增</el-button>
-                </el-col>
-            </el-row>
+
             <el-table :data='checkInUser'
                       border>
                 <el-table-column label='姓名' align='center'>
@@ -171,9 +172,17 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <div style='display:flex;justify-content:center;align-items:center;margin-top: 16px;'>
+            <div v-if='!isPreCheck&&room.roomStatus!==4' style='display:flex;justify-content:center;align-items:center;margin-top: 16px;'>
                 <el-button type='primary' @click='confirmCheckIn' style='width: 100px;'>{{
                     checkIn.id === null || checkIn.id === undefined ? '入住' : '修改'}}</el-button>
+            </div>
+            <div v-if='isPreCheck&&room.roomStatus!==4' style='display:flex;justify-content:center;align-items:center;margin-top: 16px;'>
+                <el-button type='primary' @click='confirmPreCheck' style='width: 100px;'>预定</el-button>
+            </div>
+            <div v-if='room.roomStatus===4' style='display:flex;justify-content:center;align-items:center;margin-top: 16px;'>
+                <el-button type='primary' @click='confirmPreCheck' style='width: 100px;'>修改预定</el-button>
+                <el-button type='primary' @click='cancelPreCheck' style='width: 100px;'>取消预定</el-button>
+                <el-button type='primary' @click='confirmCheck' style='width: 100px;'>入住</el-button>
             </div>
             <div style='height:180px'></div>
         </div>
@@ -186,6 +195,7 @@ export default {
     data() {
         return {
             room: this.$route.params.room,
+            isPreCheck: this.$route.params.isPreCheck,
             imageUrl: null,
             multipleSelection: [],
             checkIn: {
@@ -247,6 +257,68 @@ export default {
             } else {
                 this.$message.error('请填写完整的入住信息');
             }
+        },
+        confirmPreCheck(){
+            this.checkIn.checkInUser = this.checkInUser;
+            this.checkIn.roomNumber = this.room.roomNumber;
+            if (this.checkIn.inDate !== null && this.checkIn.outDate !== null &&
+                this.checkIn.registrant !== null && this.checkIn.cashPledge !== null &&
+                this.checkIn.shouldPay !== null && this.checkIn.realPay !== null &&
+                this.checkIn.createdBy !== null) {
+                let flag = false;
+                this.checkInUser.forEach(item => {
+                    if (item.name === null || item.phone === null || item.idNumber === null) {
+                        this.$message.error('请完整填写入住人信息');
+                        flag = true;
+                    }
+                });
+                if (flag)
+                    return;
+                const _this = this;
+                this.$confirm('确认预定吗？', '提示', {
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.post('/check-in/addPreCheck', this.checkIn).then(res => {
+                        if (res.data.code === 200) {
+                            this.$message.success('新增预定信息成功');
+                            this.getCheckIn(_this.checkIn.roomNumber);
+                        } else {
+                            this.$message.error(res.data.msg);
+                        }
+                    });
+                });
+            } else {
+                this.$message.error('请填写完整的预定信息');
+            }
+        },
+        cancelPreCheck(){
+            const _this = this
+            this.$confirm('确认取消预定吗？', '提示', {
+                type: 'warning'
+            }).then(() => {
+                this.$http.post('/check-in/cancelPreCheck', this.checkIn).then(res => {
+                    if (res.data.code === 200) {
+                        this.$message.success('取消预定信息成功');
+                        this.getCheckIn(_this.checkIn.roomNumber);
+                    } else {
+                        this.$message.error(res.data.msg);
+                    }
+                });
+            });
+        },
+        confirmCheck(){
+            this.$confirm('确认入住吗？', '提示', {
+                type: 'warning'
+            }).then(() => {
+                this.$http.post('/check-in/confirmCheck', this.checkIn).then(res => {
+                    if (res.data.code === 200) {
+                        this.$message.success('入住成功');
+                        this.getCheckIn(_this.checkIn.roomNumber);
+                    } else {
+                        this.$message.error(res.data.msg);
+                    }
+                });
+            });
         },
         getCheckIn(roomNumber) {
             try {
