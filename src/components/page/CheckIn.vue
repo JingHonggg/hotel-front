@@ -232,11 +232,44 @@ export default {
                 this.checkIn.registrant !== null && this.checkIn.cashPledge !== null &&
                 this.checkIn.shouldPay !== null && this.checkIn.realPay !== null &&
                 this.checkIn.createdBy !== null) {
+                if (!/^[\u4E00-\u9FA5]{2,4}$/.test(this.checkIn.registrant)){
+                    this.$message.error('开房人姓名应为2-4位中文')
+                    return;
+                }
+                if (this.checkIn.shouldPay<this.room.price){
+                    this.$message.error('应缴纳金额不能小于房费')
+                    return;
+                }
+                if ((Number.parseInt(this.room.shouldPay)+Number.parseInt(this.checkIn.cashPledge))>this.checkIn.realPay){
+                    this.$message.error('实际缴纳金额错误,请核对')
+                    return;
+                }
+                if (!/^[\u4E00-\u9FA5]{2,4}$/.test(this.checkIn.createdBy)){
+                    this.$message.error('登记人姓名应为2-4位中文')
+                    return;
+                }
                 let flag = false;
                 this.checkInUser.forEach(item => {
+                    if (flag)
+                        return;
                     if (item.name === null || item.phone === null || item.idNumber === null) {
                         this.$message.error('请完整填写入住人信息');
                         flag = true;
+                        return;
+                    }
+                    if (!/^[\u4E00-\u9FA5]{2,4}$/.test(item.name)){
+                        this.$message.error('入住人姓名不合法')
+                        flag = true;
+                        return;
+                    }
+                    if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(item.phone)){
+                        this.$message.error('入住人手机号不合法')
+                        flag = true
+                        return;
+                    }
+                    if (!/^[1-9]\d{5}(19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(item.idNumber)){
+                        this.$message.error('入住人身份证号码不合法')
+                        flag = true
                     }
                 });
                 if (flag)
